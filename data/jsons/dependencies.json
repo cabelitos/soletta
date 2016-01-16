@@ -431,6 +431,11 @@
       "exec": "genhtml"
     },
     {
+      "dependency": "nodejs",
+      "type": "exec",
+      "exec": "node"
+    },
+    {
       "dependency": "chrpath",
       "type": "exec",
       "exec": "chrpath"

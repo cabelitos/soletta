@@ -20,6 +20,28 @@ include $(top_srcdir)tools/build/Makefile.vars
 
 include $(top_srcdir)tools/build/Makefile.common
 
+ifneq ($(USE_NODEJS),)
+
+bins-out += nodejs_bindings
+
+comma := ,
+
+nodejs_bindings: $(SOL_LIB_OUTPUT)
+	# Install dependencies without building the package
+	@ npm install --ignore-scripts
+
+	# Build the package without clobbering build/
+	@ \
+		SOLETTA_CFLAGS="$(addprefix -I,$(abspath $(HEADERDIRS)))" \
+		SOLETTA_LIBS="$(LINKED_OBJS_LDFLAGS) $(if $(SOLETTA_FROM_NPM),-Wl$(comma)-rpath $(abspath $(LIB_OUTPUTDIR)))" \
+		$$(dirname `which node`)/../lib/node_modules/npm/bin/node-gyp-bin/node-gyp configure
+
+	@ $$(dirname `which node`)/../lib/node_modules/npm/bin/node-gyp-bin/node-gyp build
+
+PHONY += nodejs_bindings
+
+endif
+
 # kconfig interface rules
 ifeq (help, $(filter help,$(MAKECMDGOALS)))
 help: soletta_help
