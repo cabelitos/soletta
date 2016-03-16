@@ -1053,7 +1053,7 @@ int sol_util_unescape_quotes(const struct sol_str_slice slice, struct sol_buffer
  * @param use_locale true to use current system locale or false to do not use system's locale.
  * @return The number of bytes writte, negative errno or 0 on error. (see strftime man page).
  */
-ssize_t sol_util_strftime(struct sol_buffer *buf, const char *format, const struct tm *timeptr, bool use_locale);
+ssize_t sol_util_strftime(struct sol_buffer *buf, const char *format, const struct tm *timeptr, bool use_locale) SOL_ATTR_STRFTIME(2);
 
 /**
  * @}
